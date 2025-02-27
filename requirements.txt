@@ -1,4 +1,18 @@
+# FastAPI и зависимости
 fastapi==0.104.1
-uvicorn==0.24.0
+uvicorn[standard]==0.24.0
+pydantic==2.5.2
+pydantic-settings==2.1.0
+pydantic[email]==2.5.2
+
+# Supabase
+supabase==2.0.3
+postgrest==0.13.0
+
+# Утилиты
 python-dotenv==1.0.0
-supabase==2.0.3 
+python-multipart==0.0.6
+typing-extensions==4.8.0
+
+# CORS
+starlette==0.27.0 
