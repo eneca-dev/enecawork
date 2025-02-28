@@ -20,6 +20,7 @@ class AuthRegisterResponse(BaseModel):
     category: str = 'general'
     email: EmailStr
     access_token: str
+    refresh_token: str
 
 class AuthLoginRequest(BaseModel):
     email: EmailStr

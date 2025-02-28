@@ -14,18 +14,12 @@ async def register(
     user_data: AuthRegisterRequest,
     supabase: Client = Depends(get_supabase)
 ) -> AuthRegisterResponse:
-    try:
-        logger.info(f"Received registration request for email: {user_data.email}")
-        service = Auth(supabase)
-        result = await service.register_user(**user_data.model_dump())
-        logger.info("Registration successful")
-        return result
-    except Exception as e:
-        logger.error(f"Registration failed: {str(e)}")
-        raise HTTPException(
-            status_code=400,
-            detail=f'Ошибка при регистрации: {str(e)}'
-        )
+
+    logger.info(f"Received registration request for email: {user_data.email}")
+    service = Auth(supabase)
+    result = await service.register_user(**user_data.model_dump())
+    logger.info("Registration successful")
+    return result
 
 @auth_router.post('/login')
 async def login(
