@@ -19,8 +19,6 @@ class AuthRegisterResponse(BaseModel):
     position: str
     category: str = 'general'
     email: EmailStr
-    access_token: str
-    refresh_token: str
 
 class AuthLoginRequest(BaseModel):
     email: EmailStr
@@ -30,3 +28,12 @@ class AuthLoginResponse(BaseModel):
     email: EmailStr
     access_token: str
     refresh_token: str
+
+class AuthResetPasswordRequest(BaseModel):
+    email: EmailStr
+
+class AuthUpdatePasswordRequest(BaseModel):
+    access_token: str
+    refresh_token: str
+    password: str
+    password_confirm: str

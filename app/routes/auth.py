@@ -1,37 +1,46 @@
 from supabase import Client
 from app.schemas.auth import *
-from app.services.auth import Auth
+from app.services.auth import AuthServices
 from app.database import get_supabase
-from fastapi import APIRouter, Depends, HTTPException
-import logging
-
-logger = logging.getLogger(__name__)
+from fastapi import APIRouter, Depends
 
 auth_router = APIRouter()
 
 @auth_router.post('/register')
-async def register(
+def register(
     user_data: AuthRegisterRequest,
     supabase: Client = Depends(get_supabase)
 ) -> AuthRegisterResponse:
 
-    logger.info(f"Received registration request for email: {user_data.email}")
-    service = Auth(supabase)
-    result = await service.register_user(**user_data.model_dump())
-    logger.info("Registration successful")
+    result = AuthServices().register_user(supabase=supabase, **user_data.model_dump())
     return result
 
+
 @auth_router.post('/login')
-async def login(
+def login(
     user_data: AuthLoginRequest,
     supabase: Client = Depends(get_supabase)
 ) -> AuthLoginResponse:
-    try:
-        service = Auth(supabase)
-        result = await service.login_user(**user_data.model_dump())
-        return result
-    except Exception as e:
-        raise HTTPException(
-            status_code=401,
-            detail='Неверные учетные данные'
-        )
+
+    result = AuthServices().login_user(supabase=supabase, **user_data.model_dump())
+    return result
+
+
+@auth_router.post('/reset-password')
+def reset_password(
+    user_data: AuthResetPasswordRequest,
+    supabase: Client = Depends(get_supabase)
+) -> None:
+
+    result = AuthServices().reset_password(supabase=supabase, **user_data.model_dump())
+    return result
+
+
+@auth_router.post('/update-password')
+def update_password(
+    user_data: AuthUpdatePasswordRequest,
+    supabase: Client = Depends(get_supabase)
+) -> None:
+    
+    result = AuthServices().update_password(supabase=supabase, **user_data.model_dump())
+    return result
